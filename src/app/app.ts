@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AlertService } from 'alert';
+import { AlertService } from '@severfam/alert';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { ALERT_CONFIG } from 'alert';
+import { ALERT_CONFIG } from '@severfam/alert';
 
 import { routes } from './app.routes';
 

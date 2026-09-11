@@ -4,7 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "alert": ["./dist/alert"]
+      "@severfam/alert": ["./dist/alert"]
     },
     "strict": true,
     "noImplicitOverride": true,

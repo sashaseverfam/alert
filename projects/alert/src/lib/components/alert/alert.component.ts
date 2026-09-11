@@ -15,6 +15,7 @@ import { IAlert } from '../../interfaces/alert.interface';
 import { EAlertType } from '../../enums/alert.enum';
 import { ClickOutsideDirective } from '../../directives/click-outside/click-outside.directive';
 import { WINDOW } from '../../providers/window.providers';
+import { ALERT_CONFIG, AlertConfig } from '../../config/alert.config';
 
 @Component({
   selector: 'common-alert',
@@ -30,6 +31,7 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
   @ViewChild('progressBar') progressBar!: ElementRef<HTMLDivElement>;
 
   private readonly window = inject(WINDOW);
+  protected readonly config = inject<AlertConfig>(ALERT_CONFIG);
 
   readonly EAlertType = EAlertType;
 

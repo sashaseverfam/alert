@@ -17,19 +17,19 @@
   >
     @switch (alert.type) {
       @case (EAlertType.Info) {
-        <span>&#8505;&#65039;</span>
+        <span [innerHTML]="config.icons.info"></span>
       }
       @case (EAlertType.Error) {
-        <span>&#10060;</span>
+        <span [innerHTML]="config.icons.error"></span>
       }
       @case (EAlertType.Success) {
-        <span>&#9989;</span>
+        <span [innerHTML]="config.icons.success"></span>
       }
     }
   </div>
   <div class="alert__body">{{ alert.message }}</div>
   <div class="alert__close" (click)="selfClose($event)">
-    <span>&#10005;</span>
+    <span [innerHTML]="config.icons.close"></span>
   </div>
 
   @if (alert.autoClose && alert.autoCloseDuration) {

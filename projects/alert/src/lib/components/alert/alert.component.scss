@@ -68,6 +68,41 @@
     line-height: 22px;
   }
 
+  &__actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  &__action {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    .alert--info & {
+      background-color: #3b82f6;
+      color: #fff;
+    }
+
+    .alert--error & {
+      background-color: #ef4444;
+      color: #fff;
+    }
+
+    .alert--success & {
+      background-color: #22c55e;
+      color: #fff;
+    }
+  }
+
   &__close {
     flex-shrink: 0;
     cursor: pointer;

@@ -16,6 +16,7 @@ export class App {
 
   showSuccess() {
     this.alertService.success('Операция выполнена успешно!', {
+      title: 'Успех',
     });
   }
 
@@ -23,7 +24,10 @@ export class App {
     this.alertService.error('Не удалось сохранить данные.', {
       title: 'Ошибка',
       showClose: false,
-      onClick: (id) => console.log('Error alert clicked:', id),
+      actions: [
+        { label: 'Повторить', onClick: (id) => console.log('Retry:', id) },
+        { label: 'Отмена', onClick: (id) => console.log('Cancel:', id) },
+      ],
     });
   }
 
@@ -31,7 +35,10 @@ export class App {
     this.alertService.info('Новое обновление доступно.', {
       title: 'Информация',
       autoClose: false,
-      onClick: (id) => console.log('Info alert clicked:', id),
+      htmlMessage: '<strong>Версия 2.0</strong> включает новые функции. <a href="#">Подробнее</a>',
+      actions: [
+        { label: 'Обновить', onClick: (id) => console.log('Update:', id) },
+      ],
     });
   }
 }

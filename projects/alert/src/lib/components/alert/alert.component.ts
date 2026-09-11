@@ -9,6 +9,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -43,6 +44,12 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
     info: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.info),
     close: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.close),
   }));
+
+  protected readonly safeHtml = computed(() =>
+    this.alert.htmlMessage
+      ? this.sanitizer.bypassSecurityTrustHtml(this.alert.htmlMessage)
+      : null
+  );
 
   readonly EAlertType = EAlertType;
 
@@ -93,6 +100,11 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
   onAlertClick() {
     this.clicked.emit(this.alert.id);
     this.alert.onClick?.(this.alert.id);
+  }
+
+  onActionClick(actionOnClick: (id: string) => void, e: Event) {
+    e.stopPropagation();
+    actionOnClick(this.alert.id);
   }
 
   private startTimer() {

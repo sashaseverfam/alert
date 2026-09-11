@@ -33,7 +33,23 @@
     @if (alert.title) {
       <div class="alert__title">{{ alert.title }}</div>
     }
-    <div class="alert__body">{{ alert.message }}</div>
+    @if (safeHtml()) {
+      <div class="alert__body" [innerHTML]="safeHtml()"></div>
+    } @else {
+      <div class="alert__body">{{ alert.message }}</div>
+    }
+    @if (alert.actions?.length) {
+      <div class="alert__actions">
+        @for (action of alert.actions; track action.label) {
+          <button
+            class="alert__action"
+            (click)="onActionClick(action.onClick, $event)"
+          >
+            {{ action.label }}
+          </button>
+        }
+      </div>
+    }
   </div>
   @if (alert.showClose) {
     <div class="alert__close" (click)="selfClose($event)">

@@ -31,6 +31,26 @@ const alertConfig: AlertConfig = {
     info: 'ℹ️',
     close: '✖',
   },
+  colors: {
+    info: {
+      backgroundColor: '#e0f2fe',
+      iconColor: '#3b82f6',
+      buttonColor: '#3b82f6',
+      progressColor: '#3b82f6',
+    },
+    error: {
+      backgroundColor: '#fee2e2',
+      iconColor: '#ef4444',
+      buttonColor: '#ef4444',
+      progressColor: '#ef4444',
+    },
+    success: {
+      backgroundColor: '#dcfce7',
+      iconColor: '#22c55e',
+      buttonColor: '#22c55e',
+      progressColor: '#22c55e',
+    },
+  },
 };
 
 export const appConfig: ApplicationConfig = {
@@ -79,11 +99,19 @@ interface IAlert {
   createdAt: Date;                 // Creation timestamp
   onClick?: (id: string) => void; // Click handler
   actions?: AlertAction[];         // Action buttons
+  colors?: AlertColorOverrides;    // Per-alert color overrides
 }
 
 interface AlertAction {
   label: string;
   onClick: (id: string) => void;
+}
+
+interface AlertColorOverrides {
+  backgroundColor?: string;  // Override background color
+  iconColor?: string;         // Override icon color
+  buttonColor?: string;       // Override action button color
+  progressColor?: string;     // Override progress bar color
 }
 ```
 
@@ -96,6 +124,7 @@ interface AlertConfig {
   position: AlertPosition;     // Position on screen
   animation: AlertAnimation;   // Animation type
   icons: AlertIcons;           // Custom icons
+  colors: AlertColors;         // Color palette per alert type
 }
 
 type AlertPosition =
@@ -113,6 +142,19 @@ interface AlertIcons {
   error: string;    // SVG or Unicode (default: '❌')
   info: string;     // SVG or Unicode (default: 'ℹ️')
   close: string;    // SVG or Unicode (default: '✖')
+}
+
+interface AlertColors {
+  info: AlertColorSet;
+  error: AlertColorSet;
+  success: AlertColorSet;
+}
+
+interface AlertColorSet {
+  backgroundColor: string;  // Background (default: '#e0f2fe' for info)
+  iconColor: string;        // Icon color (default: '#3b82f6' for info)
+  buttonColor: string;      // Action button color (default: '#3b82f6' for info)
+  progressColor: string;    // Progress bar color (default: '#3b82f6' for info)
 }
 ```
 
@@ -267,6 +309,52 @@ this.alertService.error('Critical error!', {
 });
 ```
 
+### Custom Colors
+
+```typescript
+// Per-alert color overrides
+this.alertService.info('Custom colored alert', {
+  colors: {
+    backgroundColor: '#dbeafe',
+    iconColor: '#1d4ed8',
+    buttonColor: '#1d4ed8',
+    progressColor: '#1d4ed8',
+  },
+});
+
+// Partial overrides - only override what you need
+this.alertService.success('Green alert', {
+  colors: {
+    backgroundColor: '#bbf7d0',
+  },
+});
+
+// Global color config via AlertConfig
+const config: AlertConfig = {
+  ...alertConfig,
+  colors: {
+    info: {
+      backgroundColor: '#dbeafe',
+      iconColor: '#1d4ed8',
+      buttonColor: '#1d4ed8',
+      progressColor: '#1d4ed8',
+    },
+    error: {
+      backgroundColor: '#fecaca',
+      iconColor: '#dc2626',
+      buttonColor: '#dc2626',
+      progressColor: '#dc2626',
+    },
+    success: {
+      backgroundColor: '#bbf7d0',
+      iconColor: '#16a34a',
+      buttonColor: '#16a34a',
+      progressColor: '#16a34a',
+    },
+  },
+};
+```
+
 ### Custom Duration
 
 ```typescript
@@ -372,6 +460,26 @@ export class AppComponent {
     error: '❌',
     info: 'ℹ️',
     close: '✖',
+  },
+  colors: {
+    info: {
+      backgroundColor: '#e0f2fe',
+      iconColor: '#3b82f6',
+      buttonColor: '#3b82f6',
+      progressColor: '#3b82f6',
+    },
+    error: {
+      backgroundColor: '#fee2e2',
+      iconColor: '#ef4444',
+      buttonColor: '#ef4444',
+      progressColor: '#ef4444',
+    },
+    success: {
+      backgroundColor: '#dcfce7',
+      iconColor: '#22c55e',
+      buttonColor: '#22c55e',
+      progressColor: '#22c55e',
+    },
   }
 }
 ```

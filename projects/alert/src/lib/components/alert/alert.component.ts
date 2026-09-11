@@ -4,12 +4,11 @@ import {
   Component,
   computed,
   ElementRef,
-  EventEmitter,
   inject,
-  Input,
+  input,
+  model,
   OnDestroy,
-  Output,
-  signal,
+  output,
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -21,16 +20,16 @@ import { WINDOW } from '../../providers/window.providers';
 import { ALERT_CONFIG, AlertConfig } from '../../config/alert.config';
 
 @Component({
-  selector: 'common-alert',
+  selector: 'alert',
   imports: [CommonModule, ClickOutsideDirective],
   templateUrl: './alert.component.html',
   styleUrl: './alert.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent implements AfterViewInit, OnDestroy {
-  @Input() alert!: IAlert;
-  @Output() closed = new EventEmitter<string>();
-  @Output() clicked = new EventEmitter<string>();
+  alert = model.required<IAlert>();
+  closed = output<string>();
+  clicked = output<string>();
 
   @ViewChild('progressBar') progressBar!: ElementRef<HTMLDivElement>;
 
@@ -45,11 +44,10 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
     close: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.close),
   }));
 
-  protected readonly safeHtml = computed(() =>
-    this.alert.htmlMessage
-      ? this.sanitizer.bypassSecurityTrustHtml(this.alert.htmlMessage)
-      : null
-  );
+  protected readonly safeHtml = computed(() => {
+    const html = this.alert().htmlMessage;
+    return html ? this.sanitizer.bypassSecurityTrustHtml(html) : null;
+  });
 
   readonly EAlertType = EAlertType;
 
@@ -59,8 +57,9 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
   private isPaused = false;
 
   ngAfterViewInit() {
-    if (this.alert.autoClose) {
-      this.remainingTime = this.alert.autoCloseDuration;
+    const a = this.alert();
+    if (a.autoClose) {
+      this.remainingTime = a.autoCloseDuration;
 
       if (this.remainingTime > 0) {
         this.startTimer();
@@ -70,41 +69,46 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
   }
 
   onMouseEnter() {
-    if (this.alert.autoClose && this.remainingTime > 0) {
+    const a = this.alert();
+    if (a.autoClose && this.remainingTime > 0) {
       this.pauseTimer();
       this.pauseProgressBar();
     }
   }
 
   onMouseLeave() {
-    if (this.alert.autoClose && this.remainingTime > 0) {
+    const a = this.alert();
+    if (a.autoClose && this.remainingTime > 0) {
       this.resumeTimer();
       this.resumeProgressBar();
     }
   }
 
   onTouchStart() {
-    if (this.alert.autoClose && this.remainingTime > 0) {
+    const a = this.alert();
+    if (a.autoClose && this.remainingTime > 0) {
       this.pauseTimer();
       this.pauseProgressBar();
     }
   }
 
   onClickOutsideEvent() {
-    if (this.alert.autoClose && this.remainingTime > 0) {
+    const a = this.alert();
+    if (a.autoClose && this.remainingTime > 0) {
       this.resumeTimer();
       this.resumeProgressBar();
     }
   }
 
   onAlertClick() {
-    this.clicked.emit(this.alert.id);
-    this.alert.onClick?.(this.alert.id);
+    const a = this.alert();
+    this.clicked.emit(a.id);
+    a.onClick?.(a.id);
   }
 
   onActionClick(actionOnClick: (id: string) => void, e: Event) {
     e.stopPropagation();
-    actionOnClick(this.alert.id);
+    actionOnClick(this.alert().id);
   }
 
   private startTimer() {
@@ -186,7 +190,7 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
       this.window.clearTimeout(this.timeoutId);
       this.timeoutId = null;
     }
-    this.closed.emit(this.alert.id);
+    this.closed.emit(this.alert().id);
   }
 
   ngOnDestroy() {

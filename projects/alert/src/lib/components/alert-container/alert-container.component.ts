@@ -19,7 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AlertEventsService } from '../../services/alert-events/alert-events.service';
 
 @Component({
-  selector: 'common-alert-container',
+  selector: 'alert-container',
   standalone: true,
   imports: [],
   templateUrl: './alert-container.component.html',
@@ -97,10 +97,10 @@ export class AlertContainerComponent implements OnDestroy {
       index: 0,
     });
 
-    componentRef.instance.alert = {
+    componentRef.instance.alert.set({
       ...alert,
       id: alertId,
-    };
+    });
 
     this.applyEnterAnimation(componentRef);
 

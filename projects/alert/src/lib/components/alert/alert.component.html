@@ -1,9 +1,9 @@
 <div
   class="alert"
-  [class.alert--info]="alert.type === EAlertType.Info"
-  [class.alert--error]="alert.type === EAlertType.Error"
-  [class.alert--success]="alert.type === EAlertType.Success"
-  [class.alert--clickable]="alert.onClick"
+  [class.alert--info]="alert().type === EAlertType.Info"
+  [class.alert--error]="alert().type === EAlertType.Error"
+  [class.alert--success]="alert().type === EAlertType.Success"
+  [class.alert--clickable]="alert().onClick"
   commonClickOutside
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
@@ -13,11 +13,11 @@
 >
   <div
     class="alert__logo"
-    [class.alert__logo--info]="alert.type === EAlertType.Info"
-    [class.alert__logo--error]="alert.type === EAlertType.Error"
-    [class.alert__logo--success]="alert.type === EAlertType.Success"
+    [class.alert__logo--info]="alert().type === EAlertType.Info"
+    [class.alert__logo--error]="alert().type === EAlertType.Error"
+    [class.alert__logo--success]="alert().type === EAlertType.Success"
   >
-    @switch (alert.type) {
+    @switch (alert().type) {
       @case (EAlertType.Info) {
         <span [innerHTML]="icons().info"></span>
       }
@@ -30,17 +30,17 @@
     }
   </div>
   <div class="alert__content">
-    @if (alert.title) {
-      <div class="alert__title">{{ alert.title }}</div>
+    @if (alert().title) {
+      <div class="alert__title">{{ alert().title }}</div>
     }
     @if (safeHtml()) {
       <div class="alert__body" [innerHTML]="safeHtml()"></div>
     } @else {
-      <div class="alert__body">{{ alert.message }}</div>
+      <div class="alert__body">{{ alert().message }}</div>
     }
-    @if (alert.actions?.length) {
+    @if (alert().actions?.length) {
       <div class="alert__actions">
-        @for (action of alert.actions; track action.label) {
+        @for (action of alert().actions; track action.label) {
           <button
             class="alert__action"
             (click)="onActionClick(action.onClick, $event)"
@@ -51,19 +51,19 @@
       </div>
     }
   </div>
-  @if (alert.showClose) {
+  @if (alert().showClose) {
     <div class="alert__close" (click)="selfClose($event)">
       <span [innerHTML]="icons().close"></span>
     </div>
   }
 
-  @if (alert.autoClose && alert.autoCloseDuration) {
+  @if (alert().autoClose && alert().autoCloseDuration) {
     <div
       #progressBar
       class="alert__progressbar"
-      [class.alert__progressbar--info]="alert.type === EAlertType.Info"
-      [class.alert__progressbar--error]="alert.type === EAlertType.Error"
-      [class.alert__progressbar--success]="alert.type === EAlertType.Success"
+      [class.alert__progressbar--info]="alert().type === EAlertType.Info"
+      [class.alert__progressbar--error]="alert().type === EAlertType.Error"
+      [class.alert__progressbar--success]="alert().type === EAlertType.Success"
     ></div>
   }
 </div>

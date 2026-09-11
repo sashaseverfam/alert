@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { AlertComponent } from '../alert/alert.component';
 import { IAlert } from '../../interfaces/alert.interface';
-import { MAX_COUNT_ALERTS } from '../../constants/alert.const';
+import { ALERT_CONFIG } from '../../config/alert.config';
 import { WINDOW } from '../../providers/window.providers';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AlertEventsService } from '../../services/alert-events/alert-events.service';
@@ -31,6 +31,7 @@ export class AlertContainerComponent implements OnDestroy {
   private alertEventsService = inject(AlertEventsService);
   private environmentInjector = inject(EnvironmentInjector);
   private readonly window = inject(WINDOW);
+  private config = inject(ALERT_CONFIG);
 
   private componentRefs: Map<string, ComponentRef<AlertComponent>> = new Map();
   private destroyRef = inject(DestroyRef);
@@ -50,7 +51,7 @@ export class AlertContainerComponent implements OnDestroy {
       return;
     }
 
-    if (this.alertQueue.length >= MAX_COUNT_ALERTS) {
+    if (this.alertQueue.length >= this.config.maxAlerts) {
       const oldestAlertId = this.alertQueue.shift();
       if (oldestAlertId) {
         this.removeAlert(oldestAlertId);

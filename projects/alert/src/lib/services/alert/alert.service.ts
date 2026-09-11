@@ -1,7 +1,7 @@
 import { EAlertType } from '../../enums/alert.enum';
 import { IAlert } from '../../interfaces/alert.interface';
 import { inject, Injectable } from '@angular/core';
-import { AUTO_CLOSE_DURATION } from '../../constants/alert.const';
+import { ALERT_CONFIG } from '../../config/alert.config';
 import { AlertEventsService } from '../alert-events/alert-events.service';
 import { AlertContainerInitializerService } from '../alert-container/alert-container.service';
 
@@ -15,6 +15,7 @@ export class AlertService {
     AlertContainerInitializerService
   );
   private alertEventsService = inject(AlertEventsService);
+  private config = inject(ALERT_CONFIG);
 
   private initContainer() {
     this.alertContainerInitializerService.initContainer();
@@ -30,8 +31,8 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Success,
       message,
-      autoClose: options?.autoClose || true,
-      autoCloseDuration: options?.autoCloseDuration || AUTO_CLOSE_DURATION,
+      autoClose: options?.autoClose ?? true,
+      autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
       createdAt: new Date(),
     });
   }
@@ -41,8 +42,8 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Error,
       message,
-      autoClose: options?.autoClose || true,
-      autoCloseDuration: options?.autoCloseDuration || AUTO_CLOSE_DURATION,
+      autoClose: options?.autoClose ?? true,
+      autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
       createdAt: new Date(),
     });
   }
@@ -52,8 +53,8 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Info,
       message,
-      autoClose: options?.autoClose || true,
-      autoCloseDuration: options?.autoCloseDuration || AUTO_CLOSE_DURATION,
+      autoClose: options?.autoClose ?? true,
+      autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
       createdAt: new Date(),
     });
   }

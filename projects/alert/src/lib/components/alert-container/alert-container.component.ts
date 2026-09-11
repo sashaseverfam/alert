@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { AlertComponent } from '../alert/alert.component';
 import { IAlert } from '../../interfaces/alert.interface';
-import { ALERT_CONFIG, AlertPosition } from '../../config/alert.config';
+import { ALERT_CONFIG } from '../../config/alert.config';
 import { WINDOW } from '../../providers/window.providers';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AlertEventsService } from '../../services/alert-events/alert-events.service';
@@ -102,6 +102,8 @@ export class AlertContainerComponent implements OnDestroy {
       id: alertId,
     };
 
+    this.applyEnterAnimation(componentRef);
+
     const closedSubscription = componentRef.instance.closed.subscribe(
       (id: string) => {
         this.removeAlert(id);
@@ -123,6 +125,19 @@ export class AlertContainerComponent implements OnDestroy {
     this.componentRefs.set(alertId, componentRef);
   }
 
+  private applyEnterAnimation(componentRef: ComponentRef<AlertComponent>) {
+    if (this.config.animation === 'none') return;
+
+    const el = componentRef.location.nativeElement as HTMLElement;
+    const className = `alert--${this.config.animation}-enter`;
+
+    this.renderer.addClass(el, className);
+
+    this.window.setTimeout(() => {
+      this.renderer.removeClass(el, className);
+    }, 300);
+  }
+
   removeAlert(alertId: string) {
     const componentRef = this.componentRefs.get(alertId);
 
@@ -132,15 +147,24 @@ export class AlertContainerComponent implements OnDestroy {
         this.alertQueue.splice(index, 1);
       }
 
-      const alertElement = componentRef.location.nativeElement;
-      alertElement.style.opacity = '0';
-      alertElement.style.transition = 'opacity 0.3s ease';
+      const el = componentRef.location.nativeElement as HTMLElement;
 
-      this.window.setTimeout(() => {
-        componentRef.destroy();
-        this.componentRefs.delete(alertId);
-      }, 300);
+      if (this.config.animation !== 'none') {
+        const className = `alert--${this.config.animation}-exit`;
+        this.renderer.addClass(el, className);
+
+        this.window.setTimeout(() => {
+          this.destroyAlert(alertId, componentRef);
+        }, 300);
+      } else {
+        this.destroyAlert(alertId, componentRef);
+      }
     }
+  }
+
+  private destroyAlert(alertId: string, componentRef: ComponentRef<AlertComponent>) {
+    componentRef.destroy();
+    this.componentRefs.delete(alertId);
   }
 
   ngOnDestroy() {

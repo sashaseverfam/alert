@@ -14,6 +14,7 @@ export const appConfig: ApplicationConfig = {
         maxAlerts: 3,
         autoCloseDuration: 3000,
         position: 'top-right',
+        animation: 'slide',
         icons: {
           success: '\u{1F44D}',
           error:

@@ -8,6 +8,8 @@ export type AlertPosition =
   | 'bottom-center'
   | 'bottom-right';
 
+export type AlertAnimation = 'slide' | 'fade' | 'none';
+
 export interface AlertIcons {
   success: string;
   error: string;
@@ -24,12 +26,14 @@ export interface AlertConfig {
   autoCloseDuration: number;
   icons: AlertIcons;
   position: AlertPosition;
+  animation: AlertAnimation;
 }
 
 const DEFAULT_ALERT_CONFIG: AlertConfig = {
   maxAlerts: 5,
   autoCloseDuration: 5000,
   position: 'top-right',
+  animation: 'slide',
   icons: {
     success: '\u2705',
     error: '\u274C',

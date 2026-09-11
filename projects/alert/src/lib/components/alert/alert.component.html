@@ -1,0 +1,44 @@
+<div
+  class="alert"
+  [class.alert--info]="alert.type === EAlertType.Info"
+  [class.alert--error]="alert.type === EAlertType.Error"
+  [class.alert--success]="alert.type === EAlertType.Success"
+  commonClickOutside
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (touchstart)="onTouchStart()"
+  (clickOutsideEvent)="onClickOutsideEvent()"
+>
+  <div
+    class="alert__logo"
+    [class.alert__logo--info]="alert.type === EAlertType.Info"
+    [class.alert__logo--error]="alert.type === EAlertType.Error"
+    [class.alert__logo--success]="alert.type === EAlertType.Success"
+  >
+    @switch (alert.type) {
+      @case (EAlertType.Info) {
+        <i class="icon icon-ic_info"></i>
+      }
+      @case (EAlertType.Error) {
+        <i class="icon icon-ic_circle-close"></i>
+      }
+      @case (EAlertType.Success) {
+        <i class="icon icon-ic_circle-check"></i>
+      }
+    }
+  </div>
+  <div class="alert__body">{{ alert.message }}</div>
+  <div class="alert__close" (click)="selfClose($event)">
+    <i class="icon icon-ic_close"></i>
+  </div>
+
+  @if (alert.autoClose && alert.autoCloseDuration) {
+    <div
+      #progressBar
+      class="alert__progressbar"
+      [class.alert__progressbar--info]="alert.type === EAlertType.Info"
+      [class.alert__progressbar--error]="alert.type === EAlertType.Error"
+      [class.alert__progressbar--success]="alert.type === EAlertType.Success"
+    ></div>
+  }
+</div>

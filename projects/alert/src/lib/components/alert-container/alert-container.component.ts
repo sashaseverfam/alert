@@ -1,0 +1,115 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  DestroyRef,
+  EnvironmentInjector,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AlertComponent } from '../alert/alert.component';
+import { IAlert } from '../../interfaces/alert.interface';
+import { MAX_COUNT_ALERTS } from '../../constants/alert.const';
+import { WINDOW } from '../../providers/window.providers';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AlertEventsService } from '../../services/alert-events/alert-events.service';
+
+@Component({
+  selector: 'common-alert-container',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './alert-container.component.html',
+  styleUrl: './alert-container.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AlertContainerComponent implements OnInit, OnDestroy {
+  @ViewChild('container', { read: ViewContainerRef, static: true })
+  container!: ViewContainerRef;
+
+  private alertEventsService = inject(AlertEventsService);
+  private environmentInjector = inject(EnvironmentInjector);
+  private readonly window = inject(WINDOW);
+
+  private componentRefs: Map<string, ComponentRef<AlertComponent>> = new Map();
+  private destroyRef = inject(DestroyRef);
+
+  private alertQueue: string[] = [];
+
+  ngOnInit() {
+    this.alertEventsService.alerts$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((alert: IAlert) => {
+        this.showAlert(alert);
+      });
+  }
+
+  showAlert(alert: IAlert) {
+    if (!this.container) {
+      return;
+    }
+
+    if (this.alertQueue.length >= MAX_COUNT_ALERTS) {
+      const oldestAlertId = this.alertQueue.shift();
+      if (oldestAlertId) {
+        this.removeAlert(oldestAlertId);
+      }
+    }
+
+    const alertId = `alert-${Date.now()}-${Math.random()
+      .toString(36)
+      .substr(2, 9)}`;
+
+    const componentRef = this.container.createComponent(AlertComponent, {
+      environmentInjector: this.environmentInjector,
+      index: 0,
+    });
+
+    componentRef.instance.alert = {
+      ...alert,
+      id: alertId,
+    };
+
+    const closedSubscription = componentRef.instance.closed.subscribe(
+      (id: string) => {
+        this.removeAlert(id);
+      }
+    );
+
+    componentRef.onDestroy(() => {
+      closedSubscription.unsubscribe();
+    });
+
+    this.alertQueue.push(alertId);
+    this.componentRefs.set(alertId, componentRef);
+  }
+
+  removeAlert(alertId: string) {
+    const componentRef = this.componentRefs.get(alertId);
+
+    if (componentRef) {
+      const index = this.alertQueue.indexOf(alertId);
+      if (index > -1) {
+        this.alertQueue.splice(index, 1);
+      }
+
+      const alertElement = componentRef.location.nativeElement;
+      alertElement.style.opacity = '0';
+      alertElement.style.transition = 'opacity 0.3s ease';
+
+      this.window.setTimeout(() => {
+        componentRef.destroy();
+        this.componentRefs.delete(alertId);
+      }, 300);
+    }
+  }
+
+  ngOnDestroy() {
+    this.componentRefs.forEach((ref) => ref.destroy());
+    this.componentRefs.clear();
+    this.alertQueue = [];
+  }
+}

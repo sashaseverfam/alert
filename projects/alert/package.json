@@ -1,6 +1,12 @@
 {
   "name": "@severfam/alert",
   "version": "0.1.0",
+  "description": "Angular alert/notification library with configurable animations, positions, and icons",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sashaseverfam/alert.git"
+  },
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0"

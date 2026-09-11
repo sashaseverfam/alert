@@ -7,10 +7,16 @@ import { IAlert } from '../../interfaces/alert.interface';
 })
 export class AlertEventsService {
   private alertSubject = new Subject<IAlert>();
+  private clickSubject = new Subject<string>();
 
   readonly alerts$ = this.alertSubject.asObservable();
+  readonly clicks$ = this.clickSubject.asObservable();
 
   sendAlert(alert: IAlert) {
     this.alertSubject.next(alert);
+  }
+
+  emitClick(alertId: string) {
+    this.clickSubject.next(alertId);
   }
 }

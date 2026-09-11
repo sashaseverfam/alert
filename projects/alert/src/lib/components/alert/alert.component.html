@@ -3,11 +3,13 @@
   [class.alert--info]="alert.type === EAlertType.Info"
   [class.alert--error]="alert.type === EAlertType.Error"
   [class.alert--success]="alert.type === EAlertType.Success"
+  [class.alert--clickable]="alert.onClick"
   commonClickOutside
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
   (touchstart)="onTouchStart()"
   (clickOutsideEvent)="onClickOutsideEvent()"
+  (click)="onAlertClick()"
 >
   <div
     class="alert__logo"
@@ -27,10 +29,17 @@
       }
     }
   </div>
-  <div class="alert__body">{{ alert.message }}</div>
-  <div class="alert__close" (click)="selfClose($event)">
-    <span [innerHTML]="icons().close"></span>
+  <div class="alert__content">
+    @if (alert.title) {
+      <div class="alert__title">{{ alert.title }}</div>
+    }
+    <div class="alert__body">{{ alert.message }}</div>
   </div>
+  @if (alert.showClose) {
+    <div class="alert__close" (click)="selfClose($event)">
+      <span [innerHTML]="icons().close"></span>
+    </div>
+  }
 
   @if (alert.autoClose && alert.autoCloseDuration) {
     <div

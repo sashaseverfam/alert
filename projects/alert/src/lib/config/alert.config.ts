@@ -1,5 +1,13 @@
 import { InjectionToken } from '@angular/core';
 
+export type AlertPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
+
 export interface AlertIcons {
   success: string;
   error: string;
@@ -15,11 +23,13 @@ export interface AlertConfig {
   maxAlerts: number;
   autoCloseDuration: number;
   icons: AlertIcons;
+  position: AlertPosition;
 }
 
 const DEFAULT_ALERT_CONFIG: AlertConfig = {
   maxAlerts: 5,
   autoCloseDuration: 5000,
+  position: 'top-right',
   icons: {
     success: '\u2705',
     error: '\u274C',

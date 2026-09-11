@@ -31,9 +31,12 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Success,
       message,
+      title: options?.title,
       autoClose: options?.autoClose ?? true,
       autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
+      showClose: options?.showClose ?? true,
       createdAt: new Date(),
+      onClick: options?.onClick,
     });
   }
 
@@ -42,9 +45,12 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Error,
       message,
+      title: options?.title,
       autoClose: options?.autoClose ?? true,
       autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
+      showClose: options?.showClose ?? true,
       createdAt: new Date(),
+      onClick: options?.onClick,
     });
   }
 
@@ -53,9 +59,12 @@ export class AlertService {
       id: options?.id || this.defaultId,
       type: EAlertType.Info,
       message,
+      title: options?.title,
       autoClose: options?.autoClose ?? true,
       autoCloseDuration: options?.autoCloseDuration || this.config.autoCloseDuration,
+      showClose: options?.showClose ?? true,
       createdAt: new Date(),
+      onClick: options?.onClick,
     });
   }
 }

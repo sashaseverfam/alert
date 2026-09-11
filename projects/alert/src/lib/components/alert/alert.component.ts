@@ -9,10 +9,9 @@ import {
   Input,
   OnDestroy,
   Output,
-  signal,
   ViewChild,
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IAlert } from '../../interfaces/alert.interface';
 import { EAlertType } from '../../enums/alert.enum';
@@ -30,6 +29,7 @@ import { ALERT_CONFIG, AlertConfig } from '../../config/alert.config';
 export class AlertComponent implements AfterViewInit, OnDestroy {
   @Input() alert!: IAlert;
   @Output() closed = new EventEmitter<string>();
+  @Output() clicked = new EventEmitter<string>();
 
   @ViewChild('progressBar') progressBar!: ElementRef<HTMLDivElement>;
 
@@ -88,6 +88,11 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
       this.resumeTimer();
       this.resumeProgressBar();
     }
+  }
+
+  onAlertClick() {
+    this.clicked.emit(this.alert.id);
+    this.alert.onClick?.(this.alert.id);
   }
 
   private startTimer() {

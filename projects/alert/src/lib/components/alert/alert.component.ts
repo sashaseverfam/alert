@@ -2,14 +2,17 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   inject,
   Input,
   OnDestroy,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IAlert } from '../../interfaces/alert.interface';
 import { EAlertType } from '../../enums/alert.enum';
@@ -31,7 +34,15 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
   @ViewChild('progressBar') progressBar!: ElementRef<HTMLDivElement>;
 
   private readonly window = inject(WINDOW);
+  private readonly sanitizer = inject(DomSanitizer);
   protected readonly config = inject<AlertConfig>(ALERT_CONFIG);
+
+  protected readonly icons = computed(() => ({
+    success: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.success),
+    error: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.error),
+    info: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.info),
+    close: this.sanitizer.bypassSecurityTrustHtml(this.config.icons.close),
+  }));
 
   readonly EAlertType = EAlertType;
 

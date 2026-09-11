@@ -22,6 +22,26 @@ export const appConfig: ApplicationConfig = {
           info: '\u2139\uFE0F',
           close: '\u2716',
         },
+        colors: {
+          info: {
+            backgroundColor: '#e0f2fe',
+            iconColor: '#3b82f6',
+            buttonColor: '#3b82f6',
+            progressColor: '#3b82f6',
+          },
+          error: {
+            backgroundColor: '#fee2e2',
+            iconColor: '#ef4444',
+            buttonColor: '#ef4444',
+            progressColor: '#ef4444',
+          },
+          success: {
+            backgroundColor: '#dcfce7',
+            iconColor: '#22c55e',
+            buttonColor: '#22c55e',
+            progressColor: '#22c55e',
+          },
+        },
       },
     },
   ],

@@ -1,8 +1,6 @@
 <div
   class="alert"
-  [class.alert--info]="alert().type === EAlertType.Info"
-  [class.alert--error]="alert().type === EAlertType.Error"
-  [class.alert--success]="alert().type === EAlertType.Success"
+  [style]="alertStyles()"
   [class.alert--clickable]="alert().onClick"
   commonClickOutside
   (mouseenter)="onMouseEnter()"
@@ -13,9 +11,6 @@
 >
   <div
     class="alert__logo"
-    [class.alert__logo--info]="alert().type === EAlertType.Info"
-    [class.alert__logo--error]="alert().type === EAlertType.Error"
-    [class.alert__logo--success]="alert().type === EAlertType.Success"
   >
     @switch (alert().type) {
       @case (EAlertType.Info) {
@@ -61,9 +56,6 @@
     <div
       #progressBar
       class="alert__progressbar"
-      [class.alert__progressbar--info]="alert().type === EAlertType.Info"
-      [class.alert__progressbar--error]="alert().type === EAlertType.Error"
-      [class.alert__progressbar--success]="alert().type === EAlertType.Success"
     ></div>
   }
 </div>

@@ -49,6 +49,19 @@ export class AlertComponent implements AfterViewInit, OnDestroy {
     return html ? this.sanitizer.bypassSecurityTrustHtml(html) : null;
   });
 
+  protected readonly alertStyles = computed(() => {
+    const a = this.alert();
+    const typeColors = this.config.colors[a.type];
+    const overrides = a.colors;
+
+    return {
+      '--alert-bg-color': overrides?.backgroundColor ?? typeColors.backgroundColor,
+      '--alert-icon-color': overrides?.iconColor ?? typeColors.iconColor,
+      '--alert-btn-color': overrides?.buttonColor ?? typeColors.buttonColor,
+      '--alert-progress-color': overrides?.progressColor ?? typeColors.progressColor,
+    };
+  });
+
   readonly EAlertType = EAlertType;
 
   private remainingTime = 0;

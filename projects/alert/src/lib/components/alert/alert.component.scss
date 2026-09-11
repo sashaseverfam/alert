@@ -66,43 +66,21 @@
   box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
+  background-color: var(--alert-bg-color);
 
   &--clickable {
     cursor: pointer;
-  }
-
-  &--info {
-    background-color: #e0f2fe;
-  }
-
-  &--error {
-    background-color: #fee2e2;
-  }
-
-  &--success {
-    background-color: #dcfce7;
   }
 
   &__logo {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    color: var(--alert-icon-color);
 
     ::ng-deep svg {
       width: 24px;
       height: 24px;
-    }
-
-    &--info {
-      color: #3b82f6;
-    }
-
-    &--error {
-      color: #ef4444;
-    }
-
-    &--success {
-      color: #22c55e;
     }
   }
 
@@ -140,24 +118,11 @@
     font-weight: 500;
     cursor: pointer;
     transition: opacity 0.2s;
+    background-color: var(--alert-btn-color);
+    color: #fff;
 
     &:hover {
       opacity: 0.85;
-    }
-
-    .alert--info & {
-      background-color: #3b82f6;
-      color: #fff;
-    }
-
-    .alert--error & {
-      background-color: #ef4444;
-      color: #fff;
-    }
-
-    .alert--success & {
-      background-color: #22c55e;
-      color: #fff;
     }
   }
 
@@ -187,17 +152,6 @@
     width: 100%;
     transform-origin: left center;
     transform: scaleX(1);
-
-    &--info {
-      background-color: #3b82f6;
-    }
-
-    &--error {
-      background-color: #ef4444;
-    }
-
-    &--success {
-      background-color: #22c55e;
-    }
+    background-color: var(--alert-progress-color);
   }
 }

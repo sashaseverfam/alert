@@ -5,6 +5,13 @@ export interface AlertAction {
   onClick: (id: string) => void;
 }
 
+export interface AlertColorOverrides {
+  backgroundColor?: string;
+  iconColor?: string;
+  buttonColor?: string;
+  progressColor?: string;
+}
+
 export interface IAlert {
   id: string;
   type: EAlertType;
@@ -17,4 +24,5 @@ export interface IAlert {
   createdAt: Date;
   onClick?: (id: string) => void;
   actions?: AlertAction[];
+  colors?: AlertColorOverrides;
 }

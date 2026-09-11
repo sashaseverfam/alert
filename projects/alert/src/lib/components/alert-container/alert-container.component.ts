@@ -6,11 +6,9 @@ import {
   EnvironmentInjector,
   inject,
   OnDestroy,
-  OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AlertComponent } from '../alert/alert.component';
 import { IAlert } from '../../interfaces/alert.interface';
 import { MAX_COUNT_ALERTS } from '../../constants/alert.const';
@@ -21,12 +19,12 @@ import { AlertEventsService } from '../../services/alert-events/alert-events.ser
 @Component({
   selector: 'common-alert-container',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './alert-container.component.html',
   styleUrl: './alert-container.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlertContainerComponent implements OnInit, OnDestroy {
+export class AlertContainerComponent implements OnDestroy {
   @ViewChild('container', { read: ViewContainerRef, static: true })
   container!: ViewContainerRef;
 
@@ -39,7 +37,7 @@ export class AlertContainerComponent implements OnInit, OnDestroy {
 
   private alertQueue: string[] = [];
 
-  ngOnInit() {
+  constructor() {
     this.alertEventsService.alerts$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((alert: IAlert) => {

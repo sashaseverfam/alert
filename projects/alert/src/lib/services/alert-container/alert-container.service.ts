@@ -7,7 +7,7 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
-import { AlertContainerComponent } from './alert-container.component';
+import { AlertContainerComponent } from '../../components/alert-container/alert-container.component';
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,3 @@
-@import 'common-ui-vars';
-
 .alert {
   padding: 16px;
   display: flex;
@@ -7,55 +5,41 @@
   align-items: flex-start;
   gap: 12px;
   border-radius: 8px;
-  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.20);
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
 
-  @include mq($until: desktop) {
-    width: fit-content;
-  }
-
   &--info {
-    background-color: var(--overlay-color, $c-other-super-extra-light-blue);
+    background-color: #e0f2fe;
   }
 
   &--error {
-    background-color: var(--overlay-color-red, $c-other-super-extra-light-red);
+    background-color: #fee2e2;
   }
 
   &--success {
-    background-color: var(--overlay-color-green, $c-other-super-extra-light-green);
+    background-color: #dcfce7;
   }
 
   &__logo {
     flex-shrink: 0;
 
     &--info {
-      color: var(--primary-color, $c-blue);
-      .icon::before {
-        font-size: 24px;
-      }
+      color: #3b82f6;
     }
 
     &--error {
-      color: var(--accent-color, $c-red);
-      .icon::before {
-        font-size: 24px;
-      }
+      color: #ef4444;
     }
 
     &--success {
-      color: var(--icon-alert-success, $c-medium-light-green);
-      .icon::before {
-        font-size: 24px;
-      }
+      color: #22c55e;
     }
   }
 
   &__body {
-    color: var(--text-color, $c-dark-gray);
+    color: #1f2937;
     font-size: 15px;
-    font-style: normal;
     font-weight: 400;
     line-height: 22px;
     flex: 1;
@@ -64,12 +48,11 @@
   &__close {
     flex-shrink: 0;
     cursor: pointer;
+    color: #9ca3af;
+    font-size: 18px;
 
-    .icon {
-      color: $c-medium-gray;
-      &::before {
-        font-size: 24px;
-      }
+    &:hover {
+      color: #6b7280;
     }
   }
 
@@ -83,15 +66,15 @@
     transform: scaleX(1);
 
     &--info {
-      background-color: var(--primary-color, $c-blue);
+      background-color: #3b82f6;
     }
 
     &--error {
-      background-color: var(--accent-color, $c-red);
+      background-color: #ef4444;
     }
 
     &--success {
-      background-color: var(--icon-alert-success, $c-medium-light-green);
+      background-color: #22c55e;
     }
   }
 }
